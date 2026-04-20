@@ -1,0 +1,35 @@
+<div style="padding: 20px; font-family: sans-serif; position: relative;">
+  
+  <h1>🎓 College Course Tracker</h1>
+
+  <!-- Top Right Counter -->
+  <div style="position: absolute; top: 20px; right: 20px; padding: 10px 15px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <span style="font-size: 0.9em; color: #666; display: block;">Enrollment Status</span>
+    <strong [style.color]="enrolledCount === 3 ? '#d32f2f' : '#2e7d32'" style="font-size: 1.2em;">
+      {{ enrolledCount }} / 3 Courses
+    </strong>
+  </div>
+  
+  <!-- Search Bar -->
+  <input type="text" [(ngModel)]="searchText" placeholder="Search courses or categories..." 
+         style="width: 100%; padding: 12px; margin: 20px 0; border-radius: 5px; border: 1px solid #ddd; box-sizing: border-box;">
+
+  <!-- Course List -->
+  <div *ngFor="let course of courses | filter: searchText" 
+       style="border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;"
+       [style.background-color]="course.enrolled ? '#f1f8e9' : 'white'">
+    
+    <div>
+      <strong style="font-size: 1.1em;">{{ course.name }}</strong>
+      <div style="color: #666; font-size: 0.9em;">Category: {{ course.category }}</div>
+    </div>
+
+    <button (click)="toggleEnroll(course)" 
+            [disabled]="!course.enrolled && enrolledCount >= 3"
+            [style.opacity]="(!course.enrolled && enrolledCount >= 3) ? '0.5' : '1'"
+            [style.background-color]="course.enrolled ? '#d32f2f' : '#1976d2'"
+            style="color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s;">
+      {{ course.enrolled ? 'Remove' : 'Enroll' }}
+    </button>
+  </div>
+</div>
